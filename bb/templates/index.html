@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block title %}Activities List{% endblock %}
+
+{% block content %}
+    {% if activities %}
+        {% for entry in activities %}
+            <div draggable="true" style="
+                background: #81d4fa;
+                border: #00363a;
+                border-radius:
+                20px; margin-left: 30%;
+                margin-right: 30%;">
+                <h2>{{ entry.activity_type }}</h2>
+                <p>{{ entry.activity }}</p>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>
+            You don't have any activities!
+        </p>
+    {% endif %}
+{% endblock %}

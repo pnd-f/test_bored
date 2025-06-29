@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block title %}Activities List{% endblock %}
+
+{% block content %}
+    <h3>
+        An activity for the near future:
+    </h3>
+    <h4>
+        type: {{ details.type }}
+    </h4>
+    <p>
+        activity: {{ details.activity }}
+    </p>
+    <p>
+        participants: {{ details.participants }}
+    </p>
+    <p>
+        price: {{ details.price }}
+    </p>
+    <p>
+        {% if details.link %}
+            {{ details.link }}
+        {% endif %}
+    </p>
+    <p>
+        {#            key: {{ details.key }}#}
+    </p>
+    <p>
+        accessibility: {{ details.accessibility }}
+    </p>
+    <p>
+        availability: {{ details.availability }}
+    </p>
+    <p>
+        duration: {{ details.duration }}
+    </p>
+    <p>
+        kidFriendly: {{ details.kidFriendly }}
+    </p>
+    <p>
+    <form method="post" action={% url 'create-a' %}>
+        {% csrf_token %}
+        <input type="hidden" name="activity" value="{{ details }}">
+        <button class="btn btn-success">add to my activity</button>
+    </form>
+    </p>
+{% endblock %}

@@ -1,0 +1,7 @@
+.idea
+.venv
+static
+staticfiles
+__pycache__/
+*.pyc
+*.pyo

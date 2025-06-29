@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>
+        {% block title %}base activity page{% endblock %}
+    </title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css">
+
+</head>
+<body style="text-align: center">
+    <div id="sidebar">
+        {% block sidebar %}
+            <p>
+                <a href="/">Home</a>
+            </p>
+            <p>
+                <a href={% url 'index' %}>My activity list</a>
+            </p>
+            <p>
+                <a href={% url 'get-a' %}>Get activity</a>
+            </p>
+            <p>
+                <a href={% url 'about' %}>about</a>
+            </p>
+        {% endblock %}
+    </div>
+
+    <div id="content">
+        {% block content %}{% endblock %}
+    </div>
+
+</body>
+</html>

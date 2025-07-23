@@ -3,14 +3,17 @@ services:
     image: postgres:15.2
     ports:
       - "5432:5432"
+    # Host= postgres-postgresql:5432;Database=data;Username=user;Password=705399f1663ba8e0bbf55fdab8b7b765;
     environment:
-      - POSTGRES_PASSWORD=postgres
-      - POSTGRES_USER=postgres
+      - POSTGRES_DB=data
+      - POSTGRES_PASSWORD=705399f1663ba8e0bbf55fdab8b7b765
+      - POSTGRES_USER=user
 
   bored_api:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: temp_bored_api
+#    build:
+#      context: .
+#      dockerfile: Dockerfile
 #    command: pip install -r requirements.txt && ./manage.py collectstatic --noinput && \\
 #        ./manage.py runserver 0.0.0.0:8000
 #    command: >
@@ -20,8 +23,10 @@ services:
       - type: bind
         source: .
         target: /code/
+    environment:
+      - POSTGRES_CONNECTION=Host= db:5432;Database=data;Username=user;Password=705399f1663ba8e0bbf55fdab8b7b765
     ports:
-      - 8000:8000
+      - "8000:80"
     depends_on:
       - db
 

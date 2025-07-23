@@ -77,16 +77,23 @@ WSGI_APPLICATION = 'bored.wsgi.application'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
 # os.environ['POSTGRES_CONNECTION'] = 'Host= localhost:5432;Database=data;Username=user;Password=705399f1663ba8e0bbf55fdab8b7b765'
-conn_str = os.environ.get('POSTGRES_CONNECTION')
+conn_str = os.environ.get('POSTGRES_CONNECTION', '')
+if conn_str:
+    parts = conn_str.split(';')
+    # HARDCODE
+    host_port = parts[0].split('=')[1].strip()
+    host = host_port.split(':')[0]
+    port = host_port.split(':')[1]
+    database = parts[1].split('=')[1]
+    username = parts[2].split('=')[1]
+    password = parts[3].split('=')[1]
+else:
+    database = 'postgres'
+    username = 'postgres'
+    host = 'localhost'
+    port = 5432
+    password = 'postgres'
 
-parts = conn_str.split(';')
-# HARDCODE
-host_port = parts[0].split('=')[1].strip()
-host = host_port.split(':')[0]
-port = host_port.split(':')[1]
-database = parts[1].split('=')[1]
-username = parts[2].split('=')[1]
-password = parts[3].split('=')[1]
 # debugging stuff
 print(1111111111111, host, port, database, username, password)
 DATABASES = {

@@ -3,9 +3,11 @@ services:
     image: postgres:15.2
     ports:
       - "5432:5432"
+    # Host= postgres-postgresql:5432;Database=data;Username=user;Password=705399f1663ba8e0bbf55fdab8b7b765;
     environment:
-      - POSTGRES_PASSWORD=postgres
-      - POSTGRES_USER=postgres
+      - POSTGRES_DB=data
+      - POSTGRES_PASSWORD=705399f1663ba8e0bbf55fdab8b7b765
+      - POSTGRES_USER=user
 
   bored_api:
     build:

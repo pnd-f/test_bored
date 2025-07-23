@@ -11,4 +11,4 @@ RUN python3 manage.py collectstatic --noinput
 
 EXPOSE 80
 #CMD ["gunicorn", "src.wsgi:application", "-b", "0.0.0.0:8000"]
-ENTRYPOINT ["python", "manage.py", "runserver", "0.0.0.0:80"]
+ENTRYPOINT ["python", "manage.py", "migrate", "&&", "python", "manage.py", "runserver", "0.0.0.0:80"]

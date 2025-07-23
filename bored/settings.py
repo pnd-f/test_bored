@@ -74,7 +74,8 @@ WSGI_APPLICATION = 'bored.wsgi.application'
 
 CSRF_TRUSTED_ORIGINS = [
     # we have to know this!!!
-    "https://djangoapp-dev-service.cpaas-demo.dev.coherentprojects.net",
+    # "https://djangoapp-dev-service.cpaas-demo.dev.coherentprojects.net",
+    ['*']
 ]
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases

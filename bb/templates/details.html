@@ -40,7 +40,6 @@
     </p>
     <p>
     <form method="post" action={% url 'create-a' %}>
-        {% csrf_token %}
         <input type="hidden" name="activity" value="{{ details }}">
         <button class="btn btn-success">add to my activity</button>
     </form>

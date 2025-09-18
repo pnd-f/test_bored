@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 import os
 from pathlib import Path
-import dj_database_url
+import mongoengine
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -32,22 +32,14 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
     'django.contrib.staticfiles',
     'bb',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     # 'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
@@ -63,8 +55,6 @@ TEMPLATES = [
             'context_processors': [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
-                'django.contrib.auth.context_processors.auth',
-                'django.contrib.messages.context_processors.messages',
             ],
         },
     },
@@ -80,36 +70,19 @@ WSGI_APPLICATION = 'bored.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
-# os.environ['POSTGRES_CONNECTION'] = 'Host= localhost:5432;Database=data;Username=user;Password=705399f1663ba8e0bbf55fdab8b7b765'
-conn_str = os.environ.get('POSTGRES_CONNECTION', '')
-if conn_str:
-    parts = conn_str.split(';')
-    # HARDCODE
-    host_port = parts[0].split('=')[1].strip()
-    host = host_port.split(':')[0]
-    port = host_port.split(':')[1]
-    database = parts[1].split('=')[1]
-    username = parts[2].split('=')[1]
-    password = parts[3].split('=')[1]
-else:
-    database = 'postgres'
-    username = 'postgres'
-    host = 'localhost'
-    port = 5432
-    password = 'postgres'
+# MongoDB configuration
+MONGODB_CONNECTION = os.environ.get('MONGODB_CONNECTION', 'mongodb://user:1d0476798869869228da1606a564c37a@mongodb:27017/')
 
-# debugging stuff
-print(1111111111111, host, port, database, username, password)
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": database,
-        "USER": username,
-        "PASSWORD": password,
-        "HOST": host,
-        "PORT": port,
-    }
-}
+# Add database and authentication parameters to the connection string
+if not MONGODB_CONNECTION.endswith('/'):
+    MONGODB_CONNECTION += '/'
+MONGODB_CONNECTION += 'bored_db?authSource=admin'
+
+# Connect to MongoDB
+mongoengine.connect(host=MONGODB_CONNECTION)
+
+# Keep empty DATABASES for Django compatibility
+DATABASES = {}
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators

@@ -77,10 +77,10 @@ MONGODB_CONNECTION = os.environ.get('MONGODB_CONNECTION', 'mongodb://user:1d0476
 if not MONGODB_CONNECTION.endswith('/'):
     MONGODB_CONNECTION += '/'
 MONGODB_CONNECTION += 'bored_db?authSource=admin'
-
+print('DEBUG - MONGODB_CONNECTION:', MONGODB_CONNECTION)
 # Connect to MongoDB
 mongoengine.connect(host=MONGODB_CONNECTION)
-
+print('DEBUG - mongoengine.connect(host=MONGODB_CONNECTION) done')
 # Keep empty DATABASES for Django compatibility
 DATABASES = {}
 

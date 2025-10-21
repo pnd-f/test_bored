@@ -80,7 +80,7 @@ DATABASES = {
 # Add database and authentication parameters to the connection string
 if not MONGODB_CONNECTION.endswith('/'):
     MONGODB_CONNECTION += '/'
-MONGODB_CONNECTION += 'bored_db?authSource=admin'
+MONGODB_CONNECTION += 'data'
 print('DEBUG - MONGODB_CONNECTION:', MONGODB_CONNECTION)
 # Connect to MongoDB
 mongoengine.connect(host=MONGODB_CONNECTION)

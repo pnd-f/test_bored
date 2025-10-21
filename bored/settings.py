@@ -72,7 +72,11 @@ WSGI_APPLICATION = 'bored.wsgi.application'
 
 # MongoDB configuration
 MONGODB_CONNECTION = os.environ.get('MONGODB_CONNECTION', 'mongodb://user:1d0476798869869228da1606a564c37a@mongodb:27017/')
-
+print(11111111111111111111111, MONGODB_CONNECTION)
+print(22222222222222222222, os.environ.get('MONGODB_CONNECTION'))
+DATABASES = {
+    'default': {}
+}
 # Add database and authentication parameters to the connection string
 if not MONGODB_CONNECTION.endswith('/'):
     MONGODB_CONNECTION += '/'

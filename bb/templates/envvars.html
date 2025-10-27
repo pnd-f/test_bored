@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block title %}Environment Variables{% endblock %}
+
+{% block content %}
+    <h1>Environment Variables</h1>
+    <div style="padding-bottom: 30px;">
+        <span style="font-weight: bold">Connection string:</span>
+        <span>{{ connection_string }}</span>
+    </div>
+
+    <table class="table table-striped">
+        <tbody class=".table-striped">
+        {% for key, value in vars.items %}
+            <tr>
+                <td style="text-align: left">
+                    <span style="font-weight: bold">{{ key }}</span>
+                </td>
+                <td style="text-align: left">
+                    <span>{{ value }}</span>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {#    <pre style="text-align: left">{{ vars|safe }}</pre>#}
+{% endblock %}

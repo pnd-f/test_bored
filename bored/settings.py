@@ -71,22 +71,18 @@ WSGI_APPLICATION = 'bored.wsgi.application'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
 # MongoDB configuration
-MONGODB_CONNECTION = os.environ.get('MONGODB_CONNECTION', 'mongodb://user:1d0476798869869228da1606a564c37a@mongodb:27017/')
-print(11111111111111111111111, MONGODB_CONNECTION)
-print(22222222222222222222, os.environ.get('MONGODB_CONNECTION'))
+MONGODB_CONNECTION = os.environ.get('MONGODB_CONNECTION', 'mongodb://user:1d0476798869869228da1606a564c37a@localhost:27017/')
 DATABASES = {
     'default': {}
 }
 # Add database and authentication parameters to the connection string
 if not MONGODB_CONNECTION.endswith('/'):
     MONGODB_CONNECTION += '/'
-MONGODB_CONNECTION += 'data'
+MONGODB_CONNECTION += 'data' if os.environ.get('MONGODB_CONNECTION') else 'bored_db?authSource=admin'
 print('DEBUG - MONGODB_CONNECTION:', MONGODB_CONNECTION)
 # Connect to MongoDB
 mongoengine.connect(host=MONGODB_CONNECTION)
 print('DEBUG - mongoengine.connect(host=MONGODB_CONNECTION) done')
-# Keep empty DATABASES for Django compatibility
-DATABASES = {}
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators

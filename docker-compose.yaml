@@ -2,33 +2,16 @@ services:
   mongodb:
     image: mongo:7.0
     container_name: mongodb
-    restart: always
     ports:
       - "27017:27017"
     environment:
       MONGO_INITDB_ROOT_USERNAME: user
       MONGO_INITDB_ROOT_PASSWORD: 1d0476798869869228da1606a564c37a
       MONGO_INITDB_DATABASE: bored_db
-    volumes:
-      - mongodb_data:/data/db
-    networks:
-      - bored_network
-
-  mongo-express:
-    image: mongo-express:1.0.2
-    container_name: mongo-express
-    restart: always
-    ports:
-      - "8081:8081"
-    environment:
-      ME_CONFIG_MONGODB_ADMINUSERNAME: user
-      ME_CONFIG_MONGODB_ADMINPASSWORD: 1d0476798869869228da1606a564c37a
-      ME_CONFIG_MONGODB_URL: mongodb://user:1d0476798869869228da1606a564c37a@mongodb:27017/
-      ME_CONFIG_BASICAUTH: "false"
-    depends_on:
-      - mongodb
-    networks:
-      - bored_network
+#    volumes:
+#      - mongodb_data:/data/db
+#    networks:
+#      - bored_network
 
   bored_api:
     image: temp_bored_api
@@ -50,12 +33,12 @@ services:
       - "8000:80"
     depends_on:
       - mongodb
-    networks:
-      - bored_network
+#    networks:
+#      - bored_network
 
 volumes:
   mongodb_data:
 
-networks:
-  bored_network:
-    driver: bridge
+#networks:
+#  bored_network:
+#    driver: bridge

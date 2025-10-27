@@ -1,7 +1,9 @@
 import json
+import os
 import re
 
 import requests
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
 
 from bb.models import Activity
@@ -13,9 +15,8 @@ def index(request):
     return render(
         request,
         'index.html',
-        context={'activities': activities}
+        context={'activities': activities},
     )
-
 
 def get_activity(request):
     response = requests.get(settings.BORED_URL)
@@ -68,6 +69,22 @@ def create(request):
         activity = Activity(**data)
         activity.save()
         return redirect(index)
+
+def delete(request, activity_id):
+    if request.method == 'DELETE':
+        Activity.objects.filter(id=activity_id).delete()
+        return redirect(index)
+    return HttpResponse(status=404)
+
+
+def envvar(request):
+    vv = dict(os.environ)
+    connection_string = settings.MONGODB_CONNECTION
+    return render(
+        request,
+        'envvars.html',
+        context={'vars': vv, 'connection_string': connection_string},
+    )
 
 
 def about(request):

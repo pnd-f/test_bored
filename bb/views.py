@@ -1,22 +1,22 @@
 import json
-import os
 import re
 
 import requests
-from django.http import HttpResponse
 from django.shortcuts import render, redirect
 
 from bb.models import Activity
 from django.conf import settings
+from django.http import HttpResponse
 
 
 def index(request):
-    activities = Activity.objects.order_by('-id')
+    activities = Activity.objects.all().order_by('-id')
     return render(
         request,
         'index.html',
-        context={'activities': activities},
+        context={'activities': activities}
     )
+
 
 def get_activity(request):
     response = requests.get(settings.BORED_URL)
@@ -46,29 +46,9 @@ def create(request):
         data = json.loads(cleaned)
 
         data['activity_type'] = data.pop('type')
-        
-        # 4. Обрабатываем проблемные поля
-        # Исправляем link - если пустая строка, устанавливаем None
-        if 'link' in data and data['link'] == '':
-            data['link'] = None
-            
-        # Преобразуем accessibility в float
-        if 'accessibility' in data:
-            try:
-                data['accessibility'] = float(data['accessibility'])
-            except (ValueError, TypeError):
-                data['accessibility'] = 0.5  # значение по умолчанию
-                
-        # Преобразуем availability в float если есть
-        if 'availability' in data and data['availability'] is not None:
-            try:
-                data['availability'] = float(data['availability'])
-            except (ValueError, TypeError):
-                data['availability'] = None
-        
-        activity = Activity(**data)
-        activity.save()
+        Activity.objects.create(**data)
         return redirect(index)
+
 
 def delete(request, activity_id):
     if request.method == 'DELETE':

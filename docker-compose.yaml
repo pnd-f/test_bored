@@ -1,17 +1,13 @@
 services:
-  mongodb:
-    image: mongo:7.0
-    container_name: mongodb
+  db:
+    image: postgres:15.2
     ports:
-      - "27017:27017"
+      - "5432:5432"
+    # Host= postgres-postgresql:5432;Database=data;Username=user;Password=705399f1663ba8e0bbf55fdab8b7b765;
     environment:
-      MONGO_INITDB_ROOT_USERNAME: user
-      MONGO_INITDB_ROOT_PASSWORD: 1d0476798869869228da1606a564c37a
-      MONGO_INITDB_DATABASE: bored_db
-#    volumes:
-#      - mongodb_data:/data/db
-#    networks:
-#      - bored_network
+      - POSTGRES_DB=data
+      - POSTGRES_PASSWORD=705399f1663ba8e0bbf55fdab8b7b765
+      - POSTGRES_USER=user
 
   bored_api:
     image: temp_bored_api
@@ -28,17 +24,9 @@ services:
         source: .
         target: /code/
     environment:
-      - MONGODB_CONNECTION=mongodb://user:1d0476798869869228da1606a564c37a@mongodb:27017/
+      - POSTGRES_CONNECTION=Host= db:5432;Database=data;Username=user;Password=705399f1663ba8e0bbf55fdab8b7b765
     ports:
       - "8000:80"
     depends_on:
-      - mongodb
-#    networks:
-#      - bored_network
+      - db
 
-volumes:
-  mongodb_data:
-
-#networks:
-#  bored_network:
-#    driver: bridge

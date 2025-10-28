@@ -80,10 +80,9 @@ WSGI_APPLICATION = 'bored.wsgi.application'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
 # os.environ['POSTGRES_CONNECTION'] = 'Host= localhost:5432;Database=data;Username=user;Password=705399f1663ba8e0bbf55fdab8b7b765'
-conn_str = os.environ.get('POSTGRES_CONNECTION', '')
-print(2222222, conn_str)
-if conn_str:
-    parts = conn_str.split(';')
+POSTGRES_CONNECTION = os.environ.get('POSTGRES_CONNECTION', '')
+if POSTGRES_CONNECTION:
+    parts = POSTGRES_CONNECTION.split(';')
     # HARDCODE
     host_port = parts[0].split('=')[1].strip()
     host = host_port.split(':')[0]
@@ -99,7 +98,6 @@ else:
     password = 'postgres'
 
 # debugging stuff
-print(1111111111111, host, port, database, username, password)
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",

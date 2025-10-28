@@ -60,7 +60,7 @@ def delete(request, activity_id):
 
 def envvar(request):
     vv = dict(os.environ)
-    connection_string = settings.conn_str
+    connection_string = settings.POSTGRES_CONNECTION
     return render(
         request,
         'envvars.html',

@@ -11,7 +11,6 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 import os
 from pathlib import Path
-import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -99,7 +98,6 @@ else:
     password = 'postgres'
 
 # debugging stuff
-print(1111111111111, host, port, database, username, password)
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",

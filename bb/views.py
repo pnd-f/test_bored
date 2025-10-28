@@ -1,4 +1,5 @@
 import json
+import os
 import re
 
 import requests
@@ -59,7 +60,7 @@ def delete(request, activity_id):
 
 def envvar(request):
     vv = dict(os.environ)
-    connection_string = settings.MONGODB_CONNECTION
+    connection_string = settings.conn_str
     return render(
         request,
         'envvars.html',

@@ -6,16 +6,15 @@ services:
     # Host= postgres-postgresql:5432;Database=data;Username=user;Password=705399f1663ba8e0bbf55fdab8b7b765;
     environment:
       - POSTGRES_DB=data
-      - POSTGRES_PASSWORD=705399f1663ba8e0bbf55fdab8b7b765
+      - POSTGRES_PASSWORD=15096f0a4bfd86d7731766c464fcec6c
       - POSTGRES_USER=user
 
   bored_api:
     image: temp_bored_api
-#    build:
-#      context: .
-#      dockerfile: Dockerfile
-#    command: pip install -r requirements.txt && ./manage.py collectstatic --noinput && \\
-#        ./manage.py runserver 0.0.0.0:8000
+    build:
+      context: .
+      dockerfile: Dockerfile
+#    command: pip install -r requirements.txt && ./manage.py collectstatic --noinput && ./manage.py runserver 0.0.0.0:80
 #    command: >
 #      bash -c "pip install -r requirements.txt && ./manage.py collectstatic --noinput && \\
 #        gunicorn bored.wsgi:application --bind 0.0.0.0:8000"
@@ -24,7 +23,7 @@ services:
         source: .
         target: /code/
     environment:
-      - POSTGRES_CONNECTION=Host= db:5432;Database=data;Username=user;Password=705399f1663ba8e0bbf55fdab8b7b765
+      - POSTGRES_CONNECTION=Host= db:5432;Database=data;Username=user;Password=15096f0a4bfd86d7731766c464fcec6c
     ports:
       - "8000:80"
     depends_on:

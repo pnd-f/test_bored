@@ -6,13 +6,61 @@
     {% if activities %}
         {% for entry in activities %}
             <div draggable="true" style="
+                position: relative;
                 background: #81d4fa;
                 border: #00363a;
                 border-radius:
                 20px; margin-left: 30%;
                 margin-right: 30%;">
+                <button class="delete-button"
+                        data-id="{{ entry.id }}"
+                        style="position: absolute;
+                        top: 0;
+                        right: 0;
+                        background: #af4c4c;
+                        color: white;
+                        padding: 5px 10px;
+                        border-radius: 18px;
+                        border-color: snow;">
+                    delete
+                </button>
+
                 <h2>{{ entry.activity_type }}</h2>
-                <p>{{ entry.activity }}</p>
+                <p>
+                    {{ entry.activity }}
+                    {% if entry.participants %}
+                        Participants: {{ entry.participants }}
+                        <br>
+                    {% endif %}
+                    {% if entry.price %}
+                        Price: {{ entry.price }}
+                        <br>
+                    {% endif %}
+                    {% if entry.link %}
+                        Link: <a href="{{ entry.link }}">{{ entry.link }}</a>
+                        <br>
+                    {% endif %}
+{#                    {% if entry.key %}#}
+{#                        key: {{ entry.key }}#}
+{#                        <br>#}
+{#                    {% endif %}#}
+                    {% if entry.accessibility %}
+                        Accessibility: {{ entry.accessibility }}
+                        <br>
+                    {% endif %}
+                    {% if entry.availability %}
+                        Availability: {{ entry.availability }}
+                        <br>
+                    {% endif %}
+                    {% if entry.duration %}
+                        Duration: {{ entry.duration }}
+                        <br>
+                    {% endif %}
+                    {% if entry.kidFriendly %}
+                        Kid friendly: {{ entry.kidFriendly }}
+
+                    {% endif %}
+                </p>
             </div>
         {% endfor %}
     {% else %}
@@ -20,4 +68,44 @@
             You don't have any activities!
         </p>
     {% endif %}
+     <script>
+        // Получаем CSRF токен из cookies
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+        const csrftoken = getCookie('csrftoken');
+
+        // Навешиваем обработчик на все кнопки
+        document.querySelectorAll('.delete-button').forEach(button => {
+            button.addEventListener('click', async (event) => {
+                const entryId = event.target.getAttribute('data-id');
+
+                const response = await fetch(`/delete/${entryId}/`, {
+                    method: 'DELETE',
+                    headers: {
+                        'X-CSRFToken': csrftoken,
+                        'Content-Type': 'application/json',
+                    }
+                });
+
+                if (response.ok) {
+                    // Убираем элемент из DOM
+                    event.target.closest('div').remove();
+                } else {
+                    alert('Ошибка при удалении!');
+                }
+            });
+        });
+    </script>
 {% endblock %}

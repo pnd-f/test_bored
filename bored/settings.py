@@ -11,7 +11,6 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 import os
 from pathlib import Path
-import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -45,7 +44,7 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
+    # 'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -72,18 +71,18 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'bored.wsgi.application'
 
-CSRF_TRUSTED_ORIGINS = [
-    # we have to know this!!!
-    # "https://djangoapp-dev-service.cpaas-demo.dev.coherentprojects.net",
-    ['*']
-]
+# CSRF_TRUSTED_ORIGINS = [
+#     # we have to know this!!!
+#     # "https://djangoapp-dev-service.cpaas-demo.dev.coherentprojects.net",
+#     ['*']
+# ]
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
 # os.environ['POSTGRES_CONNECTION'] = 'Host= localhost:5432;Database=data;Username=user;Password=705399f1663ba8e0bbf55fdab8b7b765'
-conn_str = os.environ.get('POSTGRES_CONNECTION', '')
-if conn_str:
-    parts = conn_str.split(';')
+POSTGRES_CONNECTION = os.environ.get('POSTGRES_CONNECTION', '')
+if POSTGRES_CONNECTION:
+    parts = POSTGRES_CONNECTION.split(';')
     # HARDCODE
     host_port = parts[0].split('=')[1].strip()
     host = host_port.split(':')[0]
@@ -99,7 +98,6 @@ else:
     password = 'postgres'
 
 # debugging stuff
-print(1111111111111, host, port, database, username, password)
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",

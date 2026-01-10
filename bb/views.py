@@ -1,4 +1,5 @@
 import json
+import os
 import re
 
 import requests
@@ -6,6 +7,7 @@ from django.shortcuts import render, redirect
 
 from bb.models import Activity
 from django.conf import settings
+from django.http import HttpResponse
 
 
 def index(request):
@@ -47,6 +49,23 @@ def create(request):
         data['activity_type'] = data.pop('type')
         Activity.objects.create(**data)
         return redirect(index)
+
+
+def delete(request, activity_id):
+    if request.method == 'DELETE':
+        Activity.objects.filter(id=activity_id).delete()
+        return redirect(index)
+    return HttpResponse(status=404)
+
+
+def envvar(request):
+    vv = dict(os.environ)
+    connection_string = settings.POSTGRES_CONNECTION
+    return render(
+        request,
+        'envvars.html',
+        context={'vars': vv, 'connection_string': connection_string},
+    )
 
 
 def about(request):
